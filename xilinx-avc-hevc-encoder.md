@@ -23,9 +23,18 @@
 # Xilinx AVC and HEVC Encoder
 ![](./images/xilinx-logo-red-black.png)
 
-Xilinx HEVC encoder is a broadcast-quality live distribution encoder with multiple ABR outputs. Running on Xilinx® FPGA instances in public clouds or customer data centers, the Xilinx HEVC encoder is an efficient way for OTT service providers and distributors, MSOs, and telephone companies to deliver the highest video quality at the lowest bit rates over the internet and other mediums. By leveraging the high-quality, high-density cloud platform to deliver the fewest bits, operators and service providers benefit immensely with a reduction in CAPEX and OPEX. The HEVC encoder is readily integrated in FFmpeg and has flexible APIs for integration with other custom frameworks.
+Xilinx AVC/H.264 and HEVC encoder is a broadcast-quality live distribution encoder with multiple ABR outputs. Running on Xilinx® FPGA instances in public clouds or customer data centers, the Xilinx AVC and HEVC encoder is an efficient way for OTT service providers and distributors, MSOs, and telephone companies to deliver the highest video quality at the lowest bit rates over the internet and other mediums. By leveraging the high-quality, high-density cloud platform to deliver the fewest bits, operators and service providers benefit immensely with a reduction in CAPEX and OPEX. The AVC and HEVC encoder is readily integrated in FFmpeg and has flexible APIs for integration with other custom frameworks.
 
-## Features
+## AVC Features
+
+* Distribution level video quality, better than x264 slow
+* Broadcast and Distribution level video quality 1080p120 H.264 encoding in a single Xilinx Alveo U50 Data Center accelerator card suitable for cloud or on-premise deployments.
+* 16 simultaneously independent encoded streams on a single Xilinx device
+* Supports 4:2:0 8-bit input YUV
+* Supports Main and High profile
+* Constant bit rate(CBR) and Variable bit rate(VBR) are supported.
+
+## HEVC Features
 
 * High-quality live encoding
 * Xilinx® FPGA accelerated encoding with no host CPU requirements
@@ -42,15 +51,15 @@ Xilinx HEVC encoder is a broadcast-quality live distribution encoder with multip
 * Latency: Configurable from 15 to 45 frames
 * Slice types: I, P and B with flexible open/closed GOP modes and GOP lengths
 
-## Benefits
+## AVC and HEVC Benefits
 
-* 100 fps real-time encoding for resolutions up to 1920x1080 with better quality than x265 preset
+* Xilinx H264 and HEVC encoder runs at 120 fps real-time for resolutions up to 1920x1080 with better quality than x264 and x265 presets respectively.
 * 10 times lower power consumption than CPU/GPU
 * Support for HLS and DASH ABR outputs
 * Consistent output quality independent of the number of encoding channels
-* FFmpeg plugin
+* FFmpeg plugins are available
 
-## Supported Encoding Tools:
+## HEVC Supported Encoding Tools:
 
 * Advanced scene change detection algorithm
 * Enhanced video pre-analysis with configurable look-ahead

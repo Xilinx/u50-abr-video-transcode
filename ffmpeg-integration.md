@@ -53,7 +53,7 @@ The following diagram shows the anatomy of the layers of a host/server with a Xi
 
 ## FFmpeg Command Line Application
 
-In the following example, an FFmpeg command line is invoked that ingests a H.264 video elementary bitstream and reencodes the file as HEVC at a lower bit rate, targeting the Xilinx accelerated decoder and encoder. As a result, the `main()` function of the FFmpeg command is invoked and this calls the `xma_initialize()` function. The `xma_initialize()` function is called prior to executing any other XMA functions that handle resource management and control the Xilinx accelerators. The `xma_initialize()` function reads the system configuration file from `/var/tmp/xilinx/xmacfg.yaml`. The XMA configuration file uses YAML syntax to describe how the system is to be configured. In this case, you can choose between a H.264 to ABR HEVC transcode configuration or a H.264 to ABR H264 transcode configuration. The H.264 to ABR HEVC transcode configuration file is shown below.
+In the following section, an FFmpeg command execution flow that ingests a H.264 video elementary bitstream and reencodes the file as HEVC at a lower bit rate targeting the Xilinx accelerated decoder and encoder is explained. The `main()` function of the FFmpeg command is invoked and this calls the `xma_initialize()` function. The `xma_initialize()` function is called prior to executing any other XMA functions that handle resource management and control the Xilinx accelerators. The `xma_initialize()` function reads the system configuration file from `/var/tmp/xilinx/xmacfg.yaml`. The XMA configuration file uses YAML syntax to describe how the system is to be configured. In this case, you can choose between a H.264 to ABR HEVC transcode configuration or a H.264 to ABR H264 transcode configuration. The H.264 to ABR HEVC transcode configuration file is shown below.
 
 	SystemCfg:
 		- logfile:    /tmp/xma.log
@@ -93,6 +93,12 @@ In the following example, an FFmpeg command line is invoked that ingests a H.264
 						  vendor: NGCodec,
 						  name: krnl_ngcodec_chestnut_enc
 						  ]]
+
+The configuration file is generated using xcdrctl command which is a simple Python application, located under `/opt/xilinx/xcdr/bin`. Executing this application writes the configuration file for the HEVC transcoding accelerators in `/var/tmp/xilinx/xmacfg.yaml`.
+
+`xcdrctl -b U50 -p HEVCENC -n 2`
+
+In the xcdrctl, -p represents the encoder to be used in the transcoding i.e., HEVCENC or H264ENC. -n represents the number of U50 cards to be configured, the supported values are 1, 2, and 8. If one U50 card is used, then only H264 or HEVC encoder will be configured.
 
 The configuration file tells FFmpeg, by way of `xma_initialize()`, which Xilinx accelerator binary (xclbin) should be loaded into the programmable region. It also communicates what the topology of the xclbin is in terms of the number of accelerators, what device memories they are using, and where to find the XMA software plugins.
 

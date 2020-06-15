@@ -35,7 +35,7 @@ The three main functional parts of an ABR video transcoder are a decoder, a scal
  2. The scaler takes the uncompressed 1080p and produces multiple renditions of the content by scaling to resolutions of 720p, 480p, 320p, and 240p.
  3. These renditions are then encoded by a single instance of the H264 or HEVC encoder by time division multiplexing the hardware.
 
-Xilinx has integrated the video transcoding accelerators into FFmpeg, which is one of the most popular frameworks for multimedia applications among others video transcoding. FFmpeg is an open source software project, containing a vast suite of libraries, plugins, and programs for handling video, audio, and other multimedia files and streams. At its core is the FFmpeg program itself, designed for command-line-based processing of video and audio files, and widely used for transcoding. FFmpeg is part of the workflow of many software projects, and its libraries are a core part of software media players such as VLC, for example.
+Xilinx has integrated the video transcoding accelerators into FFmpeg, which is one of the most popular frameworks for multimedia applications. FFmpeg is an open source software project, containing a vast suite of libraries, plugins, and programs for handling video, audio, and other multimedia files and streams. At its core is the FFmpeg program itself, designed for command-line-based processing of video and audio files, and widely used for transcoding. FFmpeg is part of the workflow of many software projects, and its libraries are a core part of software media players such as VLC, for example.
 
 The next sections provide more details on the following video transcoding accelerators:
 

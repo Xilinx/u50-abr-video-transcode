@@ -22,62 +22,16 @@
 
 # Installation and Getting Started
 
-The required package files for setting up the ABR video transcoding evaluation and the U50 accelerator card can be found at the link [here](https://www.author.uat.xilinx.com/products/boards-and-kits/accelerator-cards/applications/adaptive-bit-rate-video-transcoding-application.html#gettingStarted). Read the [Getting Started Guide for U50 Card] (https://www.xilinx.com/support/documentation/boards_and_kits/accelerator-cards/ug1370-u50-installation.pdf) for the installation procedure for the card as well as the Xilinx Runtime.
+The required package files for setting up the U50 accelerator card can be found at the link [here](https://www.author.uat.xilinx.com/products/boards-and-kits/alveo/u50.html#gettingStarted). Read the [Getting Started Guide for U50 Card] (https://www.xilinx.com/support/documentation/boards_and_kits/accelerator-cards/ug1370-u50-installation.pdf) for the installation procedure for the card as well as the Xilinx Runtime.
 
-After you have successfully installed the Xilinx Runtime and U50 deployment package, and downloaded the ABR video transcoding evaluation package, follow the steps below to install the package on your system.
+After you have successfully installed the Xilinx Runtime and U50 deployment package, install the U50 ABR video transcoding evaluation package. Run Install_DEB.sh or Install_RPM.sh based on the server.
 
-<details><summary><b>Ubuntu Installation Guide</b></summary>
-
-## Ubuntu Installation Guide
-
-1. Unzip and untar the video transcoding tarball:
-
-    `tar -xvzf xcdr_deb_pkgs.tar.gz`
-
-2. Edit `/etc/apt/sources.list` to add the directory where the packages are located. You need **sudo** access for this:
-
-    `deb file:/home/user/xcdr_pkgs ./`
-
-3.  Run this command after changing `/etc/apt/sources.list`:
-
-      `sudo apt-get update`
-
-4. Install the downloaded packages with a single command line:
-
-    `sudo apt-get install xcdr`
-</details>
-
-<details><summary><b>RHEL/CentOS Installation Guide</b></summary>
-
-## RHEL/CentOS Installation Guide
-
-1. Unzip and untar the video transcoding tarball:
-
-    `tar -xvzf xcdr_rpm_pkgs.tar.gz`
-
-2. To add a local yum repository to the list of repositories, the `/etc/yum.repos.d` directory must be updated. Create a file called `localrepo.repo` that contains the following configuration:
-
-	```
-	[localrepo]
-	name=Xilinx Transcoder Repository
-	baseurl=file:///home/user/xcdr_pkgs
-	gpgcheck=0
-	enabled=1
-	```
-
-3. Install the downloaded packages with the following command line:
-
-    `sudo yum install xcdr`
-</details>
-
-<br>
-
-The above steps install the ABR video transcoding evaluation package and all its dependencies. The transcoding package has dependencies (among others) on the Xilinx Runtime, the DSA for the U200 card, and FFmpeg. All packages are installed under the `/opt/xilinx/` directory.
+The scripts provided installs the U50 ABR video transcoding evaluation package and all its dependencies. The transcoding package has dependencies (among others) on the Xilinx Runtime, the DSA for the U50 card. All packages are installed under the `/opt/xilinx/` directory.
 
 ```console
 .
-├── dsa
-│   └── xilinx_u200_xdma_201820_1
+├── platforms
+│   └── xilinx_u50_gen3x4_xdma_201920_3
 ├── ffmpeg
 │   ├── bin
 │   ├── etc
@@ -90,12 +44,16 @@ The above steps install the ABR video transcoding evaluation package and all its
 │   └── xclbins
 ├── xma
 │   └── plugins
-└── xrt
-    ├── bin
-    ├── include
-    ├── lib
-    ├── license
-    └── share
+├── xrt
+│   ├── bin
+│   ├── include
+│   ├── lib
+│   ├── license
+│   └── share
+└── xvbm
+    ├── include
+    └── lib
+ 
 ```
 
  As a final step of the installation, execute the following command:
@@ -105,5 +63,19 @@ The above steps install the ABR video transcoding evaluation package and all its
 This includes `/opt/xilinx/ffmpeg/bin` and `/opt/xilinx/xcdr/bin` in your path, and adds `/opt/xilinx/ffmpeg/lib` and `/opt/xilinx/xma/lib` to the `LD_LIBRARY_PATH`.
 
 When the installation is complete, you are almost ready to start using FFmpeg with the Xilinx accelerated video transcoding functionality. The package does not come with any sample H.264 video files, but you can download a copy of **Big Buck Bunny** from the following [link](https://peach.blender.org/download/). Choose your preferred download link for the 1920x1080 H.264 elementary stream.
+
+The HEVC and AVC encoders usage is protected and monitored through Digital Rights Management(DRM) provided by Accelize. The DRM IP is part of the encoder binary running on the FPGA. A separate DRM application is provided with the transcoder package.
+
+Use the following steps to subscribe and run DRM:
+1. Install DRM from http://accelize.s3-website-eu-west-1.amazonaws.com/documentation/stable/drm_library_installation.html.
+2. Create an account in the DRM portal: https://xilinx.accelize.com/
+3. Subscribe to the "Xilinx AppStore Free Eval Plan" in the DRM portal.
+4. Generate and save an access key (cred.json) file from the portal.
+5. Run the DRM application provided in the transcoder package before running the encoder.
+
+ ``` bash
+cd DrmApp
+./drmapp.exe
+```
 
 :arrow_forward:**Next Topic:**  [8. Using FFmpeg with Xilinx Accelerated Video Transcoding](using-ffmpeg-with-xilinx.md)
