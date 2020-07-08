@@ -32,6 +32,10 @@ The scripts provided installs the U50 ABR video transcoding evaluation package a
 .
 ├── platforms
 │   └── xilinx_u50_gen3x4_xdma_201920_3
+├── drmapp
+│   ├── drmapp
+│   ├── sdaccel.ini
+│   └── conf.json
 ├── ffmpeg
 │   ├── bin
 │   ├── etc
@@ -67,15 +71,26 @@ When the installation is complete, you are almost ready to start using FFmpeg wi
 The HEVC and AVC encoders usage is protected and monitored through Digital Rights Management(DRM) provided by Accelize. The DRM IP is part of the encoder binary running on the FPGA. A separate DRM application is provided with the transcoder package.
 
 Use the following steps to subscribe and run DRM:
-1. Install DRM from http://accelize.s3-website-eu-west-1.amazonaws.com/documentation/stable/drm_library_installation.html.
+1. Install DRM library from http://accelize.s3-website-eu-west-1.amazonaws.com/documentation/stable/drm_library_installation.html.
 2. Create an account in the DRM portal: https://xilinx.accelize.com/
 3. Subscribe to the "Xilinx AppStore Free Eval Plan" in the DRM portal.
-4. Generate and save an access key (cred.json) file from the portal.
-5. Run the DRM application provided in the transcoder package before running the encoder.
+4. Generate and save an access key (cred.json) file from the portal. Move the cred.json file to /opt/xilinx/drmapp folder
+5. In a separate terminal, Run the DRM application that are installed as part of the U50 transcoder package. The DRM application for HEVC encoder is drmapp and for H.264, it is drmapp_h264
 
  ``` bash
-cd DrmApp
-./drmapp.exe
+cd /opt/xilinx/drmapp
+./drmapp              /* For HEVC encoder */
+./drmapp_h264         /* For H.264 encoder */
 ```
+
+6. If multiple FPGAs are present in the server and the user wants to run DRM protected encoder on only some cards, mention the device IDs after the drm application.
+
+ ``` bash
+cd /opt/xilinx/drmapp
+./drmapp 1 3 5        /* This runs drm application for HEVC Encoder on FPGA device IDs 1 , 3 and 5 */
+./drmapp_h264 2 4 6   /* This runs drm application for H.264 Encoder on FPGA device IDs 2, 4 and 6 */
+```
+
+Once the encoding completes, close the DRM application by doing Ctrl+C. It has signal catcher which stops the DRM session.
 
 :arrow_forward:**Next Topic:**  [8. Using FFmpeg with Xilinx Accelerated Video Transcoding](using-ffmpeg-with-xilinx.md)

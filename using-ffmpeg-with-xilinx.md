@@ -82,10 +82,10 @@ In the above command line, `-filter_complex "scale_xma...[a][b][c][d]"` scales t
 
 ## Example 3: Running the Xilinx Accelerated HEVC Encoder
 
-Start the DRM application in a separate terminal before running the encoder.
+Start the DRM application in a separate terminal before running the encoder. Once the encoding completes, close the DRM application by doing Ctrl+C. It has signal catcher which stops the DRM session.
 
  ```bash
-./drmapp.exe
+./drmapp 1
 ```
 
 Using the command line below, you can run the Xilinx accelerated HEVC encoder to encode the 1920x1080 scaled rendition into an HEVC elementary bitstream.
@@ -142,10 +142,10 @@ An overview of all the relevant parameters that control the picture quality of t
 
 ## Example 4: Running Xilinx Accelerated Transcoding from H.264 to HEVC
 
-Start the DRM application in a separate terminal before running the encoder.
+Start the DRM application in a separate terminal before running the encoder. Once the encoding completes, close the DRM application by doing Ctrl+C. It has signal catcher which stops the DRM session.
 
  ```bash
-./drmapp.exe
+./drmapp 1
 ```
 
 As well as running all three accelerators in isolation, you can also put them together in a transcoding pipeline. To transcode a single H.264 encoded elementary bitstream file into an HEVC encoded bitstream file, use the following command line:
@@ -160,10 +160,10 @@ As well as running all three accelerators in isolation, you can also put them to
 
 ## Example 5: Running Xilinx Accelerated Transcoding from H.264 to HEVC Using ABR
 
-Start the DRM application in a separate terminal before running the encoder.
+Start the DRM application in a separate terminal before running the encoder. Once the encoding completes, close the DRM application by doing Ctrl+C. It has signal catcher which stops the DRM session.
 
  ```bash
-./drmapp.exe
+./drmapp 1
 ```
 
 The following command shows how to transcode a 1920x1080 H.264 encoded elementary bitstream file into four lower resolution(720p60, 720p30, 480p30, 360p30, 240p30) HEVC encoded bitstream files along with the original stream encoded.
@@ -199,7 +199,7 @@ Configure the device for HEVC transcode acceleration for 8 U50 cards with the fo
 Start the DRM application in a separate terminal before running the encoder.
 
  ```bash
-./drmapp.exe
+./drmapp 1 2 3 4 5 6 7
 ```
 
 Execute 7 different HEVC transcoding commands each decoding a 1920x1080 H.264 encoded elementary bitstream file into four lower resolution(720p60, 720p30, 480p30, 360p30, 240p30) HEVC encoded bitstream files along with the original stream encoded.
@@ -234,10 +234,10 @@ Configure the device for H.264 encoder with the following command.
 
 Executing this application writes the configuration file for the H.264 encoding accelerators in `/var/tmp/xilinx/xmacfg.yaml`.
 
-Start the DRM application in a separate terminal before running the encoder.
+Start the DRM application in a separate terminal before running the encoder. Once the encoding completes, close the DRM application by doing Ctrl+C. It has signal catcher which stops the DRM session.
 
  ```bash
-./drmapp.exe
+./drmapp_h264 0
 ```
 
 Now trigger the ffmpeg command to program the devices and encode a YUV input stream to H264 encoded bitstream.
@@ -261,10 +261,10 @@ Configure the device for H.264 transcoding with the following command.
 
 Executing this application writes the configuration file for the H.264 transcoding accelerators in `/var/tmp/xilinx/xmacfg.yaml`.
 
-Start the DRM application in a separate terminal before running the encoder.
+Start the DRM application in a separate terminal before running the encoder. Once the encoding completes, close the DRM application by doing Ctrl+C. It has signal catcher which stops the DRM session.
 
  ```bash
-./drmapp.exe
+./drmapp_h264 1
 ```
 
 Now trigger the ffmpeg command to program the devices and transcode an elementary H.264 bitstream into four lower resolution(720p60, 720p30, 480p30, 360p30, 240p30) H.264 encoded bitstream files along with the original stream encoded.
@@ -298,10 +298,10 @@ Configure the device for H.264 transcode acceleration for 8 U50 cards with the f
 
 `xcdrctl -p H264ENC -b U50 -n 8`
 
-Start the DRM application in a separate terminal before running the encoder.
+Start the DRM application in a separate terminal before running the encoder. Once the encoding completes, close the DRM application by doing Ctrl+C. It has signal catcher which stops the DRM session.
 
  ```bash
-./drmapp.exe
+./drmapp_h264 1 2 3 4 5 6 7
 ```
 
 Execute 7 different H.264 transcoding commands each decoding a 1920x1080 H.264 encoded elementary bitstream file into four lower resolution(720p60, 720p30, 480p30, 360p30, 240p30) H.264 encoded bitstream files along with the original stream encoded.
