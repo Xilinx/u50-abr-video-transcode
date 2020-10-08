@@ -39,8 +39,8 @@ Xilinx has integrated the video transcoding accelerators into FFmpeg, which is o
 
 The next sections provide more details on the following video transcoding accelerators:
 
-* The [Xilinx](https://www.xilinx.com/) AVC decoder.
-* The [Xilinx](https://www.xilinx.com/) ABR scaler.
-* The [Xilinx](https://www.xilinx.com/) AVC and HEVC encoders.
+* The Xilinx AVC decoder.
+* The Xilinx ABR scaler.
+* The Xilinx AVC and HEVC encoders.
 
 :arrow_forward:**Next Topic:**  [2. Xilinx AVC Decoder](xilinx-avc-decoder.md)

@@ -22,6 +22,40 @@
 
 # Using FFmpeg with Xilinx Accelerated Video Transcoding Functionality
 
+The following tables capture the H.264 and HEVC encoder parameters supported.
+
+## HEVC Encoder parameters:
+| Parameter          | Sample usage      | Notes                                     |
+|:-------------------|:-----------------:|:------------------------------------------|
+| Encoder            | -c:v NGC265       | NGC265 identifies the encoder             |
+| Pixel Format       | -pix_fmt yuv420p  | Yuv 4:2:0 is the only mode supported      |
+| Width, Height      | -s:v 1920x1080    | Max width and height is 1920 and 1080     |
+| Frames per second  | -vf fps=60        |                                           |
+| Fixed QP           | -q 35             |                                           |
+| Bitrate            | -b:v 1000K        | Supports 100K-35Mb                        |
+| GOP Period	     | -g 60             | Intra/IDR period                          |
+| Open GOP	         | -openGOP 0        | Enable/Disable open GOP. Enabled by default |
+| AQ mode            | -aq-mode 1        | adaptive quantization: 1 or 0             |
+| RC Lookahead       | -rc-lookahead 8   | Number of frames to look ahead for frametype and ratecontrol. Supported values are -1 to 30, default is -1. |
+| AQ Temporal gain   | -aq-temp-gain 128 | Reduces blocking and blurring in flat and textured areas. Supported values are -1 to 128, default is -1. |
+| AQ Spatial gain    | -aq-spat-gain 128 | Reduces blocking and blurring in flat and textured areas. Supported values are -1 to 128, default is -1. |
+| Num B frames       | -b-level 3        | Number of B frames. Supported values are -1 to 7, default is -1. |
+| Constant Rate Factor | -crf 63         | Supported values are -1 to 63, default -1 |
+
+## H.264 Encoder parameters:
+| Parameter          | Sample usage     | Notes                                     |
+|:-------------------|:----------------:|:------------------------------------------|
+| Encoder            | -c:v libx264     | Libx264 identifies the encoder            |
+| Pixel Format       | -pix_fmt yuv420p | YUV 4:2:0 is the only mode supported      |
+| Width, Height      | -s:v 1920x1080   | Max width and height is 1920 and 1080     |
+| Frames per second  | -vf fps=60       |                                           |
+| Bitrate            | -b:v 1000K       |                                           |
+| Profile            | -profile:v main  | Main and High profiles are supported      |
+| Level              | -level 4.2       | Supported till 4.2                        |
+| GOP Length         | -g 60            | Maximum GOP supported is 250              |
+| Bufsize            | -bufsize 2M      | Maximum bufsize is twice the bit-rate     |
+| MaxRate            | -maxrate 2M      | Maximum bit-rate at ny point in encoding  |
+
 
 With <a href="https://peach.blender.org/download/">Big Buck Bunny</a> or any other H.264 video elementary stream ready to go, you can take a look at the following example command lines.
 
@@ -38,9 +72,10 @@ The `xcdrctl` command is a simple Python application, located under `/opt/xilinx
 
 Now trigger the ffmpeg command to program the devices and decode an elementary H.264 bitstream using the Xilinx accelerated decoder as follows:
 
-`ffmpeg -y -c:v XILH264D -i input.h264 -pix_fmt yuv420p -f rawvideo output.yuv`
+`ffmpeg -y -c:v XILH264D -channelLoad 1000 -i input.h264 -pix_fmt yuv420p -f rawvideo output.yuv`
 
 `-c:v XILH264D` preceding the input file indicates that you are using the H.264 Xilinx accelerated decoder to decode the H.264 encoded elementary bitstream. The resulting decoded frames are written as raw video to the output file.
+`-channelLoad 1000` indicates to run single stream on decoder kernel. If multiple channels are required to run on a single decoder kernel, reduce the channelLoad with respect to the number of channels.
 
 >**:pushpin: NOTE** You can find sample FFmpeg commands in `/opt/xilinx/xcdr/scripts/`.
 
@@ -55,7 +90,7 @@ The following command line shows how to scale the 1920x1080 uncompressed input f
 
  ```bash
 ffmpeg -f rawvideo -pix_fmt yuv420p -s:v 1920x1080 -i input.yuv \
--filter_complex "scale_xma=outputs=1: out_1_width=1280:out_1_height=720:[a]" \
+-filter_complex "scale_xma=outputs=1: out_1_width=1280:out_1_height=720[a]" \
 -map '[a]' -frames 2000 -f rawvideo -pix_fmt yuv420p -y out.yuv
 ```
 
@@ -64,10 +99,10 @@ In this evaluation package, the scaler can generate up to four scaled renditions
  ```bash
 ffmpeg -f rawvideo -pix_fmt yuv420p -s:v 1920x1080 -i input.yuv  \
 -filter_complex "scale_xma=outputs=4: \
-out_1_width=1280:out_1_height=720: \
-out_2_width=848:out_2_height=480: \
-out_3_width=640:out_3_height=360: \
-out_4_width=424:out_4_height=240[a][b][c][d]" \
+out_1_width=1280:out_1_height=720:out_1_rate=full: \
+out_2_width=848:out_2_height=480:out_2_rate=half: \
+out_3_width=640:out_3_height=360:out_3_rate=half: \
+out_4_width=424:out_4_height=240:out_4_rate=half[a][b][c][d]" \
 -map '[a]' -f rawvideo -pix_fmt yuv420p -y out1.yuv \
 -map '[b]' -f rawvideo -pix_fmt yuv420p -y out2.yuv \
 -map '[c]' -f rawvideo -pix_fmt yuv420p -y out3.yuv \
@@ -75,6 +110,8 @@ out_4_width=424:out_4_height=240[a][b][c][d]" \
 ```
 
 In the above command line, `-filter_complex "scale_xma...[a][b][c][d]"` scales the input frames to an image pyramid of 1280x720, 848x480, 640x360, and 424x240 using the Xilinx ABR scaler. Each of the scaled outputs `[a][b][c][d]` can then, using the `-map '[a]'` command, be referred to individually and written to four output files. `-f rawvideo -pix_fmt yuv420p` indicates that the input frames are raw video, formatted as `yuv420p`, which is a planar YUV 4:2:0 video format. `-s:v 1920x1080` indicates that the resolution of the uncompressed input frames is 1920x1080.
+
+`out_1_rate=full` scales the stream at same frame rate as input. `out_2_rate=half` scales and gives the output frames at half the input frame rate. The first channel should be given at full rate.
 </details>
 
 <details>
@@ -96,11 +133,11 @@ Using the command line below, you can run the Xilinx accelerated HEVC encoder to
 
 The standard method for getting the supported options and information about an encoder from FFmpeg is to issue the following command:
 
-`ffmpeg –h encoder=NGC265`
+`ffmpeg -h encoder=NGC265`
 
 To find the list of available encoders, issue the command:
 
-`ffmpeg --codecs`
+`ffmpeg -codecs`
 
 In the case of the Xilinx accelerated HEVC encoder, the results are as follows:
 
@@ -111,30 +148,16 @@ Encoder NGC265 [NGCodec H.265 / HEVC]:
     Supported pixel formats: yuv420p
 ngc265 AVOptions:
   -aq-mode           <int>        E..V..... AQ method (from -1 to 1) (default -1)
-  -rc-lookahead      <int>        E..V..... Number of frames to look ahead for frametype and ratecontrol (from 0 to 30) (default 30)
+  -rc-lookahead      <int>        E..V..... Number of frames to look ahead for frametype and ratecontrol (from -1 to 30) (default -1)
   -aq-temp-gain      <int>        E..V..... Temporal AQ strength. Reduces blocking and blurring in flat and textured areas. (from -1 to 128) (default -1)
   -aq-spat-gain      <int>        E..V..... Spatial AQ strength. Reduces blocking and blurring in flat and textured areas. (from -1 to 128) (default -1)
   -b-level           <int>        E..V..... Number of B frames (from -1 to 7) (default -1)
   -crf               <int>        E..V..... Constant Rate Factor (from -1 to 63) (default -1)
   -openGOP           <int>        E..V..... Open/close GOP option (from -1 to 1) (default -1)
-  -fwpath            <string>     E..V..... Firmware path (default "")
+  -fwpath            <string>     E..V..... Firmware path
+  -x-options         <string>     E..V..... Extra options
 ```
 
-An overview of all the relevant parameters that control the picture quality of the encoder (including FFmpeg standard controls such as `-b`, and `-g`) is shown in the table below.
-
-| Parameter Name | FFmpeg Command Option | Mininum to Maximum Value Range | Suggested Value |
-| :------------------------ |:-------------| :-------| :-------|
-| Fixed QP	| -q	| 0-51	| >=15 |
-| Min QP        | -minQP | -12-51 | -12 | |
-| Bit rate	| -b	| 100K-35M	| Depends on resolution|
-| GOP Period | -g	| 0-32767	| 0 |
-| Open GOP | -openGOP	| 0-1	| 1 |
-| Constant Rate Factor | -crf	| 0-63	| -1 |
-| Num B frames	| -b-level	| 0-7	| 3 or 7 based on framerate |
-| AQ Mode	| -aq-mode	| 0-1	| 1|
-| Temporal AQ Gain	| -aq-temp-gain | 0-128	| 80|
-| Spatial AQ Gain	| -aq-spat-gain	| 0-128	| 96|
-| Lookahead Distance	| -rc-lookahead	| 0-30| 	30|
 </details>
 
 <details>

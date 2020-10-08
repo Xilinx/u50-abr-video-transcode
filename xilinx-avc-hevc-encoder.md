@@ -38,24 +38,20 @@ Xilinx AVC/H.264 and HEVC encoder is a broadcast-quality live distribution encod
 
 * High-quality live encoding
 * Xilinx® FPGA accelerated encoding with no host CPU requirements
-* 16 simultaneously independent encoded streams on a single Xilinx device
+* 13 simultaneously independent encoded streams on a single Xilinx device
 * Programmable latency of 15 to 45 frames
 * Simple API based on industry standards
-* Supports 4:2:0 8-bit input YUV
-* Broadcast-quality 1080p100 HEVC live encoding in a single Xilinx Alveo U50 Data Center accelerator card suitable for cloud or on-premise deployments.
+* Broadcast-quality 1080p120 HEVC live encoding in a single Xilinx Alveo U50 Data Center accelerator card suitable for cloud or on-premise deployments.
 * Built-in multipass encoding
-* Flexible multiple ABR outputs with up to 16 streams with a single instance
 * HEVC: Main 10 Profile up to Level 5.1 HD/SD 4:2:0 8 bit
 * Constant bit rate (CBR), capped variable bit rate (VBR), and fixed QP modes
 * Bit rates: Configurable from 100 Kbps to 40 Mbps
-* Latency: Configurable from 15 to 45 frames
 * Slice types: I, P and B with flexible open/closed GOP modes and GOP lengths
 
 ## AVC and HEVC Benefits
 
 * Xilinx H264 and HEVC encoder runs at 120 fps real-time for resolutions up to 1920x1080 with better quality than x264 and x265 presets respectively.
 * 10 times lower power consumption than CPU/GPU
-* Support for HLS and DASH ABR outputs
 * Consistent output quality independent of the number of encoding channels
 * FFmpeg plugins are available
 
@@ -70,7 +66,5 @@ Xilinx AVC/H.264 and HEVC encoder is a broadcast-quality live distribution encod
 
 * HD/SD resolutions down to 240p, with both horizontal and vertical dimension divisible by 4.
 * 4:2:0 8 bit
-
-For more information, please visit [www.xilinx.com](https://www.xilinx.com) or write to aaronb@xilinx.com.
 
 :arrow_forward:**Next Topic:**  [4. Xilinx ABR Scaler](xilinx-abr-scaler.md)

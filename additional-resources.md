@@ -23,3 +23,5 @@
 # Additional resources
 * [Xilinx Website](https://www.xilinx.com/)
 * [About FFmpeg](https://www.ffmpeg.org/about.html)
+
+For more information, please write to alveo_video_ea@xilinx.com.

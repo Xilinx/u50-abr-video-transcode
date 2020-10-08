@@ -35,6 +35,4 @@ The Xilinx decoder design is fully autonomous and does not require an external p
 
 In addition, all non-standard resolutions are supported by the decoder up to a maximum resolution of 1920x1080 and a maximum frame rate of 60. The decoder supports CABAC bit rate up to 80 Mbps, and CAVLC bit rate up to 160 Mbps.
 
-For more information about this decoder, please visit [www.xilinx.com](https://www.xilinx.com) or write to aaronb@xilinx.com.
-
 :arrow_forward:**Next Topic:**  [3. Xilinx AVC and HEVC Encoder](xilinx-avc-hevc-encoder.md)

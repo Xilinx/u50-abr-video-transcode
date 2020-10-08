@@ -44,6 +44,4 @@ The scaler takes the 1920x1080 input and scales it down to 1280x720. It then tak
 *  	Supports even spatial resolutions from 256x144 to 1920x1080.
 * 	Although the main use case is downscaling, the ABR scaler also allows for upscaling. The outputs must be configured in descending order.
 
-For more information, write to aaronb@xilinx.com.
-
 :arrow_forward:**Next Topic:**  [5. FFmpeg Integration](ffmpeg-integration.md)

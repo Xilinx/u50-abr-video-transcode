@@ -32,9 +32,6 @@ For this evaluation package, currently only the following **Xilinx accelerator c
 
 * U50 (xilinx_u50_dynamic_5_1)
 
-The package requires Linux kernel 3.10 and GCC with C++11 features, and has been tested on the following **software platforms**:
-
-* RHEL/CentOS 7.4 and 7.5
-* Ubuntu 16.04.4 LTS
+The package requires GCC with C++11 features, and has been tested on RHEL 7.7.
 
 :arrow_forward:**Next Topic:**  [7. Installation and Getting Started](installation-and-getting-started.md)
